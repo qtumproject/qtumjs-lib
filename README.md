@@ -1,7 +1,7 @@
 # qtumjs-lib
 This is an extend lib for bitcoinjs-lib.
 It extends the network type of bitcoinjs-lib.
-It also supplies an useful lib to help you building QTUM transactions.
+It also provides an useful lib to help you building QTUM transactions.
 
 ## Installation
 ``` bash
@@ -88,4 +88,21 @@ function buildPubKeyHashTransaction(keyPair, to, amount, fee, utxoList)
  * @returns String the built tx
  */
 function buildCreateContractTransaction(keyPair, code, gasLimit, gasPrice, fee, utxoList)
+```
+#### Utils.buildSendToContractTransaction
+```javascript
+/**
+ * This is a helper function to build a send-to-contract transaction
+ * the transaction object takes at least 4 fields, value(unit is QTUM), confirmations, hash and pos
+ *
+ * @param bitcoinjs-lib.KeyPair keyPair
+ * @param String contractAddress The contract address
+ * @param String encodedData The encoded abi data
+ * @param Number gasLimit
+ * @param Number gasPrice(unit: 1e-8 QTUM/gas)
+ * @param Number fee(unit: QTUM)
+ * @param [transaction] utxoList
+ * @returns String the built tx
+ */
+function buildSendToContractTransaction(keyPair, contractAddress, encodedData, gasLimit, gasPrice, fee, utxoList)
 ```

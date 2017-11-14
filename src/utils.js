@@ -21,7 +21,7 @@ function selectTxs(unspentTransactions, amount, fee) {
             matureList[matureList.length] = unspentTransactions[i]
         }
         else {
-            immatureList[matureList.length] = unspentTransactions[i]
+            immatureList[immatureList.length] = unspentTransactions[i]
         }
     }
     matureList.sort(function(a, b) {return a.value - b.value})
@@ -103,8 +103,51 @@ function buildCreateContractTransaction(keyPair, code, gasLimit, gasPrice, fee, 
         OPS.OP_4,
         number2Buffer(gasLimit),
         number2Buffer(gasPrice),
-        Buffer.from(code),
+        hex2Buffer(code),
         OPS.OP_CREATE
+    ])
+    tx.addOutput(contract, 0)
+    if (totalValue.minus(sendFee).toNumber() > 0) {
+        tx.addOutput(from, totalValue.minus(sendFee).toNumber())
+    }
+    for (var i = 0; i < inputs.length; i++) {
+        tx.sign(i, keyPair)
+    }
+    return tx.build().toHex()
+}
+
+/**
+ * This is a helper function to build a send-to-contract transaction
+ * the transaction object takes at least 4 fields, value(unit is QTUM), confirmations, hash and pos
+ *
+ * @param bitcoinjs-lib.KeyPair keyPair
+ * @param String contractAddress The contract address
+ * @param String encodedData The encoded abi data
+ * @param Number gasLimit
+ * @param Number gasPrice(unit: 1e-8 QTUM/gas)
+ * @param Number fee(unit: QTUM)
+ * @param [transaction] utxoList
+ * @returns String the built tx
+ */
+function buildSendToContractTransaction(keyPair, contractAddress, encodedData, gasLimit, gasPrice, fee, utxoList) {
+    var from = keyPair.getAddress()
+    var amount = 0
+    fee = new BigNumber(gasLimit).times(gasPrice).div(1e8).add(fee).toNumber()
+    var inputs = selectTxs(utxoList, amount, fee)
+    var tx = new bitcoinjs.TransactionBuilder(keyPair.network)
+    var totalValue = new BigNumber(0)
+    var sendFee = new BigNumber(fee).times(1e8)
+    for (var i = 0; i < inputs.length; i++) {
+        tx.addInput(inputs[i].hash, inputs[i].pos)
+        totalValue = totalValue.plus(inputs[i].value)
+    }
+    var contract =  bitcoinjs.script.compile([
+        OPS.OP_4,
+        number2Buffer(gasLimit),
+        number2Buffer(gasPrice),
+        hex2Buffer(encodedData),
+        hex2Buffer(contractAddress),
+        OPS.OP_CALL
     ])
     tx.addOutput(contract, 0)
     if (totalValue.minus(sendFee).toNumber() > 0) {
@@ -135,8 +178,17 @@ function number2Buffer(num) {
     return Buffer.from(buffer)
 }
 
+function hex2Buffer(hexString) {
+    var buffer = []
+    for (var i = 0; i < hexString.length; i += 2) {
+        buffer[buffer.length] = (parseInt(hexString[i], 16) << 4) | parseInt(hexString[i+1], 16)
+    }
+    return Buffer.from(buffer)
+}
+
 module.exports = {
     selectTxs: selectTxs,
     buildPubKeyHashTransaction: buildPubKeyHashTransaction,
     buildCreateContractTransaction: buildCreateContractTransaction,
+    buildSendToContractTransaction: buildSendToContractTransaction,
 }
