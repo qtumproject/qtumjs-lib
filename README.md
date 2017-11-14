@@ -16,7 +16,7 @@ var qtumjs = require('qtumjs-lib')
 
 ## New features
 ### Network
-```json
+```
 {
     qtum: {
         messagePrefix: '\x18Qtum Signed Message:\n',
