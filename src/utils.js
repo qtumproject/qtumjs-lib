@@ -32,7 +32,7 @@ function selectTxs(unspentTransactions, amount, fee) {
     var find = []
     var findTotal = new BigNumber(0)
     for (var i = 0; i < unspentTransactions.length; i++) {
-        let tx = unspentTransactions[i]
+        var tx = unspentTransactions[i]
         findTotal = findTotal.plus(tx.value)
         find[find.length] = tx
         if (findTotal.greaterThanOrEqualTo(value)) break
