@@ -1,6 +1,6 @@
 {
   "name": "qtumjs-lib",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "An extend lib for bitcoinjs-lib, it supports two new network of qtum and qtum-testnet, and it can generate contract creating and sending transactions",
   "main": "src/index.js",
   "repository": {

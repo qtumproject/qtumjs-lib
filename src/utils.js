@@ -5,7 +5,7 @@ var Buffer = require('safe-buffer').Buffer
 
 /**
  * This is a function for selecting QTUM utxos to build transactions
- * the transaction object takes at least 2 fields, value(unit is QTUM) and confirmations
+ * the transaction object takes at least 3 fields, value(unit is 1e-8 QTUM) , confirmations and isStake
  *
  * @param [transaction] unspentTransactions
  * @param Number amount(unit: QTUM)
@@ -17,7 +17,7 @@ function selectTxs(unspentTransactions, amount, fee) {
     var matureList = []
     var immatureList = []
     for(var i = 0; i < unspentTransactions.length; i++) {
-        if(unspentTransactions[i].confirmations >= 500) {
+        if(unspentTransactions[i].confirmations >= 500 || unspentTransactions[i].isStake === false) {
             matureList[matureList.length] = unspentTransactions[i]
         }
         else {
@@ -45,7 +45,7 @@ function selectTxs(unspentTransactions, amount, fee) {
 
 /**
  * This is a helper function to build a pubkeyhash transaction
- * the transaction object takes at least 4 fields, value(unit is QTUM), confirmations, hash and pos
+ * the transaction object takes at least 5 fields, value(unit is 1e-8 QTUM), confirmations, isStake, hash and pos
  *
  * @param bitcoinjs-lib.KeyPair keyPair
  * @param String to
@@ -77,7 +77,7 @@ function buildPubKeyHashTransaction(keyPair, to, amount, fee, utxoList) {
 
 /**
  * This is a helper function to build a create-contract transaction
- * the transaction object takes at least 4 fields, value(unit is QTUM), confirmations, hash and pos
+ * the transaction object takes at least 5 fields, value(unit is 1e-8 QTUM), confirmations, isStake, hash and pos
  *
  * @param bitcoinjs-lib.KeyPair keyPair
  * @param String code The contract byte code
@@ -118,7 +118,7 @@ function buildCreateContractTransaction(keyPair, code, gasLimit, gasPrice, fee, 
 
 /**
  * This is a helper function to build a send-to-contract transaction
- * the transaction object takes at least 4 fields, value(unit is QTUM), confirmations, hash and pos
+ * the transaction object takes at least 5 fields, value(unit is 1e-8 QTUM), confirmations, isStake, hash and pos
  *
  * @param bitcoinjs-lib.KeyPair keyPair
  * @param String contractAddress The contract address
