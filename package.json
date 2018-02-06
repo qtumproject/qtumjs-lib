@@ -1,6 +1,6 @@
 {
   "name": "qtumjs-lib",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "An extend lib for bitcoinjs-lib, it supports two new network of qtum and qtum-testnet, and it can generate contract creating and sending transactions",
   "main": "src/index.js",
   "repository": {
@@ -19,11 +19,11 @@
     "url": "https://github.com/qtumweiyu/qtumjs-lib/issues"
   },
   "homepage": "https://github.com/qtumweiyu/qtumjs-lib#readme",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
     "bignumber.js": "^4.1.0",
-    "bitcoinjs-lib": "^3.3.0",
+    "bitcoinjs-lib": "^3.3.2",
     "qtum-opcodes": "^1.0.0",
     "safe-buffer": "^5.1.1"
-  },
-  "dependencies": {}
+  }
 }
