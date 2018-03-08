@@ -1,6 +1,6 @@
 module.exports = {
     qtum: {
-        messagePrefix: '\x18Qtum Signed Message:\n',
+        messagePrefix: '\x15Qtum Signed Message:\n',
         bech32: 'bc',
         bip32: {
             public: 0x0488b21e,
@@ -11,7 +11,7 @@ module.exports = {
         wif: 0x80
     },
     qtum_testnet: {
-        messagePrefix: '\x18Qtum Signed Message:\n',
+        messagePrefix: '\x15Qtum Signed Message:\n',
         bech32: 'tb',
         bip32: {
             public: 0x043587cf,
