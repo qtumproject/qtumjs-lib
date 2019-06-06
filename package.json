@@ -19,9 +19,7 @@
     "url": "https://github.com/qtumproject/qtumjs-lib/issues"
   },
   "homepage": "https://github.com/qtumproject/qtumjs-lib#readme",
-  "devDependencies": {
-    "test": "file:../test"
-  },
+  "devDependencies": {},
   "dependencies": {
     "bignumber.js": "^4.1.0",
     "bitcoinjs-lib": "^3.3.2",
