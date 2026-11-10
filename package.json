@@ -22,7 +22,7 @@
   "devDependencies": {},
   "dependencies": {
     "bignumber.js": "^4.1.0",
-    "bitcoinjs-lib": "^3.3.2",
+    "bitcoinjs-lib": "^5.2.1",
     "qtum-opcodes": "^1.0.0",
     "safe-buffer": "^5.1.1"
   }
